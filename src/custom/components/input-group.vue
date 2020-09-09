@@ -1,7 +1,8 @@
 <template>
-  <div class="flex-center">
+  <div class="group flex-center">
     <div class="img-container">
-      <img :class="{'active-img': focused}" src="../../assets/hugh.png"/>
+      <div v-if="focused" class="img-round-circle"></div>
+      <img src="../../assets/hugh.png"/>
     </div>
     <div class="content">
       <div class="flex head-title" :class="{'active': focused}">{{name}} IS</div>
@@ -38,6 +39,10 @@ export default {
 </script>
 
 <style scoped>
+.group {
+  min-height: 65px;
+}
+
 .flex {
   display: flex;
 }
@@ -50,6 +55,28 @@ export default {
 .flex-center {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.img-container {
+  position: relative;
+  width: 59px;
+  height: 59px;
+}
+
+.img-round-circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #2540ff;
+  border-radius: 50%;
+}
+
+.img-container > img {
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  width: 55px;
 }
 
 .active {
@@ -57,12 +84,8 @@ export default {
 }
 
 span {
-  margin-left: 15px;
-}
-
-.active-img {
-  border: 2px solid #2540ff;
-  border-radius: 50%;
+  margin-left: 9px;
+  font-size: 14px;
 }
 
 .head-title {

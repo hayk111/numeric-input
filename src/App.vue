@@ -20,12 +20,19 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: Roboto;
+  src: url('./assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Roboto;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+InputGroup {
+  margin: 20px;
 }
 </style>

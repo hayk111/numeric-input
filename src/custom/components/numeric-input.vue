@@ -1,8 +1,10 @@
 <template>
   <input
     v-isNumeric
+    ref="input"
     :style="{width: width + 'px'}"
     v-model="value"
+    placeholder="7"
     @focus="$emit('focused')"
     @blur="$emit('blured')"
     @keyup="adjustSize"/>
@@ -26,14 +28,24 @@ export default {
         this.width = styleConstants.INPUT_MIN_WIDTH;
       }
       if (this.isNumeric(this.value)) {
+        const startPos = this.$refs.input.selectionStart;
+        const whitePrevCount = this.value.split(' ').length - 1;
         const val = this.value.split(' ').join('');
         this.value = this.parseToSpaced(val);
+        const whiteCount = this.value.split(' ').length - 1;
+        this.$nextTick(() => {
+          this.setCursorPosition(this.$refs.input, startPos + (whiteCount - whitePrevCount));
+        });
       } else {
         this.value = this.value.slice(0, this.value.length - 1);
         this.width = this.width - styleConstants.INPUT_CHAR_WIDTH <= styleConstants.INPUT_MIN_WIDTH
           ? styleConstants.INPUT_MIN_WIDTH
           : this.width - styleConstants.INPUT_CHAR_WIDTH;
       }
+    },
+    setCursorPosition(el, pos) {
+      el.focus();
+      el.setSelectionRange(pos, pos);
     },
     parseToSpaced(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
@@ -52,7 +64,7 @@ export default {
     cursor: pointer;
     border: 0;
     outline: 0;
-    color: #c9c9cf;
+    color: #2c2c30;
     background: transparent;
     margin: 0;
     padding: 0;
@@ -64,7 +76,6 @@ export default {
   }
 
   input:focus {
-    color: #2c2c30;
     border-bottom: 1px solid #2540ff;
   }
 
@@ -77,5 +88,18 @@ export default {
   /* Firefox */
   input[type=number] {
     -moz-appearance: textfield;
+  }
+
+  input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #c9c9cf;
+    opacity: 1; /* Firefox */
+  }
+
+  input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #c9c9cf;
+  }
+
+  input::-ms-input-placeholder { /* Microsoft Edge */
+    color: #c9c9cf;
   }
 </style>
